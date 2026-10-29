@@ -1,0 +1,12 @@
+{
+  "name": "skip-the-call-test",
+  "version": "0.1.0",
+  "description": "A/B test kit for the question: do we need the qualification call? Google Sheets + Apps Script, no install.",
+  "license": "MIT",
+  "private": true,
+  "scripts": {
+    "test": "node --test tests/*.test.js",
+    "example": "node examples/generate.js",
+    "demo": "node examples/demo.js"
+  }
+}

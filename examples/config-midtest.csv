@@ -1,0 +1,22 @@
+key,value
+test_name,Skip-the-Call test (example, mid-test read)
+next_stage_label,questionnaire
+primary_endpoint,stage
+baseline_rate,3%
+mde,2%
+alpha,0.05
+power,0.8
+ni_margin,1.5%
+planned_split_skip,50%
+offers_per_week,200
+start_date,2026-03-02
+freeze_date,2026-05-24
+snapshot_date,2026-04-20
+maturity_stage_days,30
+maturity_qualified_days,30
+maturity_proposal_days,45
+maturity_won_days,90
+age_checkpoints,"7,14,21,30,45,60,90"
+exclude_prior,true
+baseline_proposal_rate,1.2%
+baseline_won_rate,0.3%

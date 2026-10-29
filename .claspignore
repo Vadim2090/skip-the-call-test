@@ -1,0 +1,4 @@
+# Only src/*.js and appsscript.json go to Apps Script.
+**/**
+!src/*.js
+!appsscript.json

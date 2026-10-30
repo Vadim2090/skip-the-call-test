@@ -47,6 +47,10 @@ Conversions arrive with a lag. A subject offered last week has had no chance to 
 construction. The same error, one level down: a weekly cohort scored at "age 14" contains
 people offered on seven different days, so the Sunday entrant has only had eight days.
 
+The arms also mature at different speeds. Without the call a subject can reach the next stage
+in days; with it, only after a call is booked and held. Read before both arms have had the full
+window and the faster arm "wins" a race the slower one has not finished.
+
 **Readout:** the "mature n" and "within window" columns use only subjects observed for the
 full window. **Maturation:** every age cell counts only subjects observed at least that long,
 and the young-cohort scorecard evaluates the expected curve at **each subject's own age**.

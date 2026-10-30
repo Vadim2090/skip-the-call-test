@@ -14,6 +14,13 @@ small JSON file, and the script writes a clean `events.csv`.
 python3 -I adapters/map_csv.py --mapping my-mapping.json --in crm-export.csv --out events.csv
 ```
 
+Try it on the sample first: `examples/crm-export-sample.csv` is a 40-row export with its own
+column names, labels and `dd/mm/yyyy` dates, and `examples/mapping-sample.json` is the mapping below.
+
+```bash
+python3 -I adapters/map_csv.py --mapping examples/mapping-sample.json --in examples/crm-export-sample.csv --out /tmp/events.csv
+```
+
 `my-mapping.json`:
 
 ```json

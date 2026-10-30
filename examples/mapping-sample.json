@@ -1,0 +1,40 @@
+{
+  "columns": {
+    "subject_id": "Person ID",
+    "arm": "Offer variant",
+    "offered_at": "First offer sent",
+    "assignment_source": "Offer sent by",
+    "channel": "Channel",
+    "segment": "List",
+    "call_booked_at": "Intro call booked",
+    "call_held_at": "Intro call held",
+    "stage_at": "Questionnaire submitted",
+    "qualified_at": "Assessment requested",
+    "proposal_at": "Proposal sent",
+    "won_at": "Won date",
+    "revenue": "Deal value"
+  },
+  "arm_values": {
+    "call": [
+      "Call first",
+      "meeting"
+    ],
+    "skip": [
+      "Questionnaire first",
+      "questionnaire"
+    ]
+  },
+  "source_values": {
+    "randomizer": [
+      "Sequence step"
+    ],
+    "auto": [
+      "AI reply",
+      "Autoresponder"
+    ],
+    "manual": [
+      "Rep"
+    ]
+  },
+  "date_format": "%d/%m/%Y"
+}

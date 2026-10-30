@@ -531,11 +531,14 @@ function buildPlan(cfg) {
   rows.push(['What this test can read at the planned n']);
   rows.push(['Endpoint', 'Power at ' + nSup + ' per arm', 'Reading']);
   rows.push(['primary', pct(powerAt(p1, p2, nSup, nSup, cfg.alpha), 0), 'designed for this']);
+  var unreadable = [];
   [['proposal', cfg.baseline_proposal_rate], ['won', cfg.baseline_won_rate]].forEach(function (pair) {
     if (pair[1] === null) { rows.push([pair[0], '', 'set baseline_' + pair[0] + '_rate in Config to see whether this endpoint is readable']); return; }
     var b = pair[1], pw = powerAt(b, b * (1 + cfg.mde / p1), nSup, nSup, cfg.alpha);
+    if (pw < 0.5) unreadable.push(pair[0]);
     rows.push([pair[0], pct(pw, 0), pw < 0.5 ? 'NOT readable at this volume: a difference here will look like noise either way' : (pw < 0.8 ? 'weak: direction only' : 'readable')]);
   });
+  rows[1] = ['Verdict', planVerdict_(cfg, wSup, wNI, unreadable)];
   rows.push([]);
   rows.push(['Before launch (each line is a mistake already made once; see docs/traps.md)']);
   [
@@ -548,6 +551,18 @@ function buildPlan(cfg) {
     '7. A null result is reported with its CI and the non-inferiority verdict, never as "no difference".'
   ].forEach(function (l) { rows.push([l]); });
   return { rows: rows, nSup: nSup, nNI: nNI, weeks: wSup, freeze: freeze };
+}
+
+/** One sentence for the top of the Plan tab: can this test be run at this volume, and on what. */
+function planVerdict_(cfg, wSup, wNI, unreadable) {
+  if (wSup === null) return 'Set offers_per_week in Config to see how long the test takes.';
+  var weeks = Math.max(wSup, wNI);
+  var head = weeks <= 13 ? 'Feasible: ' : (weeks <= 26 ? 'Long: ' : 'Not practical at this volume: ');
+  var text = head + weeks + ' weeks of enrolment at ' + cfg.offers_per_week + ' offers/week, then ' +
+    cfg.maturity[cfg.primary_endpoint] + ' days until the first read.';
+  if (weeks > 26) text += ' Raise the MDE, add volume, or decide without a test and say so.';
+  if (unreadable.length) text += ' Decide on ' + cfg.next_stage_label + '; ' + unreadable.join(' and ') + ' will not be readable.';
+  return text;
 }
 
 // ───────────────────────── entry point ─────────────────────────────────────

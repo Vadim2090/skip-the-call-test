@@ -5,10 +5,27 @@ deal cycle: plan the A/B, collect one table, read the result honestly. Google Sh
 Apps Script, no install, nothing to host. The statistics and every trap we fell into are in
 the repo; the data stays in your sheet.
 
+## Start in two minutes
+
+1. **[Make a copy of the template](https://docs.google.com/spreadsheets/d/1Aq0X8NB7Qmnr-lb_Zyf0T3pODylRRAheALs8h4PRSQg/copy)** (a Google account is all you need). It opens
+   filled with a synthetic example, so every tab is already readable before you run anything.
+2. **Read Checks, then Readout.** The example has one planted bug: an auto-reply that routes
+   early responders into one arm. Checks flags it as FAIL; Readout shows what it does to the verdict.
+3. **Is your volume enough?** Put your three numbers in Config (`baseline_rate`, `mde`,
+   `offers_per_week`) and run **Skip-the-Call → 1. Plan**. The first line is the verdict:
+   feasible, long, or not practical, and which endpoints you will be able to read. No data needed.
+
+The first menu run asks for permission: the script touches this spreadsheet only
+(`@OnlyCurrentDoc`), no other files, no network. Google may show "unverified app" for a script
+that is not on the Marketplace; `docs/setup.md` says what to click. No Google account:
+`node examples/plan.js --baseline 3% --mde 2% --per-week 200` prints the same Plan.
+
+![Checks tab of the example: one FAIL for the auto-reply that routes only into the skip arm](docs/img/checks.png)
+
 ```
 Config (your assumptions)  +  Events (one row per subject offered)
         │
-        ▼  menu: Skip-the-Call → Build plan / Run readout
+        ▼  menu: Skip-the-Call → 1. Plan / 2. Readout
 Plan · Readout · Maturation · Checks
 ```
 
@@ -79,27 +96,32 @@ Readout. Details and the fix for each: `docs/traps.md`.
    (the form, the trial). The second endpoint is "qualified by any route", which includes
    whatever the call does on its own. Write both down before the first read.
 2. **Size it.** Fill Config with your historical offer-to-next-stage rate, the smallest
-   difference worth acting on, and your weekly offer volume. **Build plan** gives subjects per
-   arm, weeks to enrol, the freeze date, the read dates, and which endpoints are readable at
-   your volume. If proposal or won come back "not readable", decide now that you will judge on
+   difference worth acting on, and your weekly offer volume. **1. Plan** gives the verdict,
+   subjects per arm, weeks to enrol, the freeze date, the read dates, and which endpoints are
+   readable at your volume. If proposal or won come back "not readable", decide now that you will judge on
    the next stage.
+
+   ![Plan tab of the example: the verdict line, subjects per arm, the freeze and read dates](docs/img/plan.png)
+
 3. **Fix the randomization.** One split, at one point, before any automation or person touches
    the subject. Make every auto-reply, sequence and chatbot arm-aware, or turn them off for the
    test. Log the assignment source per subject; it is a column in the Events table.
 4. **Collect one table.** One row per subject offered: arm, offer date, assignment source,
    and the dates of each outcome. `docs/data-contract.md` says what each column means and
-   how to derive it from a CRM; `adapters/map_csv.py` maps any export into the shape.
+   how to derive it from a CRM; `adapters/map_csv.py` maps any export into the shape
+   (`examples/crm-export-sample.csv` + `examples/mapping-sample.json` is a worked example).
 5. **Read on the dates, in order.** Checks first. Then the primary endpoint block of the
    Readout: mature rates, the interval of the difference, the non-inferiority verdict. Then
    "qualified by any route". A null result is reported with its interval, never as "no difference".
 
 ## Get the template
 
-- **Google Sheets** (recommended): create a blank sheet, paste the four files from `src/`
-  into Apps Script, reload, use the menu. Five minutes, no tooling: `docs/setup.md`.
-- **Node, locally**: `node examples/generate.js && node examples/demo.js` prints all four
-  tabs for the synthetic data; `node examples/demo.js your-config.csv your-events.csv` runs
-  on your own export. `node --test tests/*.test.js` runs the 18 tests.
+- **Google Sheets** (recommended): **[make a copy](https://docs.google.com/spreadsheets/d/1Aq0X8NB7Qmnr-lb_Zyf0T3pODylRRAheALs8h4PRSQg/copy)**. To build it from the repo
+  instead (paste the four `src/` files, or `clasp push`): `docs/setup.md`.
+- **Node, locally**: `node examples/plan.js --baseline 3% --mde 2% --per-week 200` for the
+  Plan alone; `node examples/generate.js && node examples/demo.js` prints all four tabs for
+  the synthetic data; `node examples/demo.js your-config.csv your-events.csv` runs on your own
+  export. `node --test tests/*.test.js` runs the 26 tests.
 
 ## What is in the repo
 
@@ -108,11 +130,11 @@ Readout. Details and the fix for each: `docs/traps.md`.
 | `src/stats.js` | Wilson, Fisher exact, exact binomial, Newcombe interval, sample size (superiority and non-inferiority), power |
 | `src/engine.js` | Parsing, gating, censoring, the four tables |
 | `src/synthetic.js` | The example dataset with its planted facts |
-| `src/sheets.js` | The Apps Script menu and tab writers |
+| `src/sheets.js` | The Apps Script menu, the Start here tab and the tab writers |
 | `docs/` | `traps.md`, `method.md`, `data-contract.md`, `setup.md`, `field-notes.md` |
 | `adapters/` | `map_csv.py`: any CSV export to the Events shape, standard library only |
-| `examples/` | `config.csv`, `config-midtest.csv`, `generate.js`, `demo.js` |
-| `tests/` | 18 tests on the statistics and the engine, including the planted facts |
+| `examples/` | `plan.js` (step 0), `config.csv`, `config-midtest.csv`, `generate.js`, `demo.js`, a sample CRM export and its mapping |
+| `tests/` | 26 tests: the statistics, the engine with its planted facts, the Sheets menu against a fake SpreadsheetApp, the adapter |
 
 ## Where this comes from
 

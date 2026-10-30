@@ -165,3 +165,11 @@ test('readout verdict text: significant vs null with non-inferiority', () => {
   assert.ok(flat.includes('significant: skip higher'));
   assert.ok(flat.includes('Significant on the primary endpoint'));
 });
+
+test('plan verdict says feasible, long or not practical from the enrolment weeks', () => {
+  const v = (over) => E.buildPlan(E.parseConfig(configRows(Object.assign({ freeze_date: '' }, over)))).rows[1][1];
+  assert.match(v({ baseline_rate: '10%', mde: '5%', ni_margin: '', offers_per_week: 300 }), /^Feasible: /);
+  assert.match(v({ offers_per_week: 200 }), /^Long: 16 weeks/);
+  assert.match(v({ offers_per_week: 50 }), /^Not practical at this volume: 64 weeks/);
+  assert.match(v({ offers_per_week: 200 }), /proposal and won will not be readable/);
+});

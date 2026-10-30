@@ -558,10 +558,15 @@ function planVerdict_(cfg, wSup, wNI, unreadable) {
   if (wSup === null) return 'Set offers_per_week in Config to see how long the test takes.';
   var weeks = Math.max(wSup, wNI);
   var head = weeks <= 13 ? 'Feasible: ' : (weeks <= 26 ? 'Long: ' : 'Not practical at this volume: ');
-  var text = head + weeks + ' weeks of enrolment at ' + cfg.offers_per_week + ' offers/week, then ' +
-    cfg.maturity[cfg.primary_endpoint] + ' days until the first read.';
-  if (weeks > 26) text += ' Raise the MDE, add volume, or decide without a test and say so.';
-  if (unreadable.length) text += ' Decide on ' + cfg.next_stage_label + '; ' + unreadable.join(' and ') + ' will not be readable.';
+  var text = head + wSup + ' weeks of enrolment at ' + cfg.offers_per_week + ' offers/week to detect ' + pp(cfg.mde) +
+    ', ' + wNI + ' weeks to show the skip arm is no worse than ' + pp(-cfg.ni_margin) + '. First read ' +
+    cfg.maturity[cfg.primary_endpoint] + ' days after the freeze date below (set for detection).';
+  var fixes = [];
+  if (wSup > 26) fixes.push('raise the MDE');
+  if (wNI > 26) fixes.push('widen ni_margin');
+  if (fixes.length) text += ' To shorten it: ' + fixes.join(' or ') + ', add volume, or decide without a test and say so.';
+  var primary = cfg.primary_endpoint === 'stage' ? cfg.next_stage_label : 'qualified by any route';
+  if (unreadable.length) text += ' Decide on ' + primary + '; ' + unreadable.join(' and ') + ' will not be readable at the same relative effect.';
   return text;
 }
 

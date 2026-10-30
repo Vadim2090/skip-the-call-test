@@ -15,7 +15,7 @@ function fakeSpreadsheetApp(answer) {
     const sh = {
       name, frozen: 0, validations: [],
       getName: () => name,
-      clear() { cells.clear(); },
+      clear() { cells.clear(); sh.validations = []; },   // Range/Sheet clear() drops data validation too
       setFrozenRows(n) { sh.frozen = n; },
       autoResizeColumn() {}, setColumnWidth() {}, getColumnWidth: () => 100,
       getMaxRows: () => 1000,
@@ -107,6 +107,7 @@ test('Load the example fills every tab and Checks shows the planted FAIL', () =>
   const statuses = fake.ss.getSheetByName('Checks').getDataRange().getValues().map(r => r[1]);
   assert.ok(statuses.includes('FAIL'));
   assert.ok(fake.toasts.some(t => /Checks: \d+ FAIL/.test(t)));
+  assert.equal(fake.ss.getSheetByName('Events').validations.length, 2, 'dropdowns survive the reload');
 });
 
 test('Readout on an empty Events tab fails with an instruction, not a stack trace', () => {

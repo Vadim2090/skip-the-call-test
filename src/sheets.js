@@ -184,7 +184,7 @@ function loadExample() {
   writeTab_(TAB_CONFIG, cfgRows, 1);
   var subjects = generateSynthetic({});
   var rows = [EVENT_COLUMNS].concat(subjects.map(function (s) { return EVENT_COLUMNS.map(function (c) { return s[c]; }); }));
-  writeTab_(TAB_EVENTS, rows, 1);
+  addEventDropdowns_(writeTab_(TAB_EVENTS, rows, 1));   // clear() drops validation, so re-add it
   if (!sheet_(TAB_START, false)) writeStartTab_();
   buildPlanTab();
   runReadout();

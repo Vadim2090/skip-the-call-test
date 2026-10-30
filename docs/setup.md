@@ -12,9 +12,9 @@ Four ways to run it. The first needs nothing but a Google account.
    use it, Google asks for permission:
    - **Choose your account**, then **Allow**. The script asks only for "this spreadsheet"
      (`@OnlyCurrentDoc`) and for showing its dialogs; it cannot open your other files or the network.
-   - If Google shows **"Google hasn't verified this app"**: that screen appears for any script
-     that is not published on the Workspace Marketplace. Click **Advanced → Go to
-     Skip-the-Call test (unsafe)**. The code you are authorizing is the four files in `src/`,
+   - If Google shows **"Google hasn't verified this app"**: Google shows it for scripts whose
+     OAuth access has not been through its verification review, and a personal copy of a
+     script usually has not. Click **Advanced → Go to Skip-the-Call test (unsafe)**. The code you are authorizing is the four files in `src/`,
      visible under **Extensions → Apps Script**.
 4. **Is your volume enough?** In **Config**, set `baseline_rate`, `mde` and `offers_per_week`,
    then **Skip-the-Call → 1. Plan**. The first line of Plan is the verdict.

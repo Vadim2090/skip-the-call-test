@@ -17,7 +17,7 @@ the repo; the data stays in your sheet.
 
 The first menu run asks for permission: the script touches this spreadsheet only
 (`@OnlyCurrentDoc`), no other files, no network. Google may show "unverified app" for a script
-that is not on the Marketplace; `docs/setup.md` says what to click. No Google account:
+that has not been through its OAuth verification; `docs/setup.md` says what to click. No Google account:
 `node examples/plan.js --baseline 3% --mde 2% --per-week 200` prints the same Plan.
 
 ![Checks tab of the example: one FAIL for the auto-reply that routes only into the skip arm](docs/img/checks.png)

@@ -52,7 +52,7 @@ node examples/plan.js --baseline 3% --mde 2% --per-week 200   # step 0: the Plan
 node examples/generate.js          # writes examples/events.csv (2,400 synthetic subjects)
 node examples/demo.js              # prints Plan, Readout, Maturation, Checks
 node examples/demo.js examples/config-midtest.csv    # the same data read in the middle of the test
-node --test tests/*.test.js        # 26 tests
+node --test tests/*.test.js        # 30 tests
 ```
 
 `examples/demo.js` takes any `config.csv` and `events.csv` in the Events format, so it also

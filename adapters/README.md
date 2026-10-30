@@ -53,3 +53,22 @@ python3 -I adapters/map_csv.py --mapping examples/mapping-sample.json --in examp
 
 The script does not call any API and does not know any particular CRM. If your stack has an
 API, the pattern is the same: pull once per source, join on at least two keys, write this CSV.
+
+## `join_keys.py`: attach outcomes on several keys
+
+When the next stage lives in another system (a form tool, a CRM stage log), the outcome has to
+be matched back to the offered person. Email alone misses everyone who used a personal
+address, and the miss is invisible: it reads as "did not convert". The script tries each key
+in the order you give, never uses a key value shared by two subjects, keeps the earliest date,
+and prints the match rate per key.
+
+```bash
+python3 -I adapters/join_keys.py --offers examples/join-offers-sample.csv \
+  --outcomes examples/join-fills-sample.csv --keys email,linkedin,name \
+  --date-col submitted_at --date-format %d/%m/%Y --into stage_at \
+  --out /tmp/events-joined.csv --unmatched /tmp/unmatched.csv
+```
+
+On the sample, email alone matches 3 of 7 fills; email, LinkedIn URL and full name match 6.
+Key columns need the same names in both files; `email*`, `linkedin*` and `name*` columns get
+normalised (case, URL form, accents, a first name alone is not a key).

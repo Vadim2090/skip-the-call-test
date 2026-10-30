@@ -5,6 +5,7 @@
  *
  *   node examples/demo.js                 # uses examples/config.csv + examples/events.csv
  *   node examples/demo.js my-config.csv my-events.csv
+ *   node examples/demo.js my-config.csv my-events.csv --md   # full-width Markdown tables, nothing cut
  */
 const fs = require('fs');
 const path = require('path');
@@ -33,8 +34,31 @@ function printRows(rows) {
   });
 }
 
-const cfgFile = process.argv[2] || path.join(__dirname, 'config.csv');
-const evFile = process.argv[3] || path.join(__dirname, 'events.csv');
+function printMarkdown(rows) {
+  const cell = c => String(c === undefined || c === null ? '' : c).replace(/\|/g, '\\|');
+  let table = [];
+  const flush = () => {
+    if (!table.length) return;
+    const n = Math.max(...table.map(r => r.length));
+    const pad = r => { const x = r.map(cell); while (x.length < n) x.push(''); return '| ' + x.join(' | ') + ' |'; };
+    console.log(pad(table[0]));
+    console.log('|' + ' --- |'.repeat(n));
+    table.slice(1).forEach(r => console.log(pad(r)));
+    console.log('');
+    table = [];
+  };
+  rows.forEach(r => {
+    if (!r.length || r.every(c => c === '')) { flush(); return; }
+    if (r.length === 1 || r.slice(1).every(c => c === '')) { flush(); console.log(cell(r[0]) + '\n'); return; }
+    table.push(r);
+  });
+  flush();
+}
+
+const md = process.argv.includes('--md');
+const files = process.argv.slice(2).filter(a => !a.startsWith('--'));
+const cfgFile = files[0] || path.join(__dirname, 'config.csv');
+const evFile = files[1] || path.join(__dirname, 'events.csv');
 if (!fs.existsSync(evFile)) {
   console.error(`${evFile} not found. Run: node examples/generate.js`);
   process.exit(1);
@@ -43,6 +67,7 @@ const config = readCsv(cfgFile);
 const events = readCsv(evFile);
 const out = E.runAll(config, events[0], events.slice(1));
 for (const [name, tab] of [['PLAN', out.plan], ['READOUT', out.readout], ['MATURATION', out.maturation], ['CHECKS', out.checks]]) {
+  if (md) { console.log('## ' + name + '\n'); printMarkdown(tab.rows); continue; }
   console.log('\n' + '='.repeat(100) + '\n' + name + '\n' + '='.repeat(100));
   printRows(tab.rows);
 }

@@ -20,6 +20,20 @@ The first menu run asks for permission: the script touches this spreadsheet only
 that has not been through its OAuth verification; `docs/setup.md` says what to click. No Google account:
 `node examples/plan.js --baseline 3% --mde 2% --per-week 200` prints the same Plan.
 
+## Or ask Claude
+
+The repo is also a skill for Claude Code: `SKILL.md` tells the agent how to size the test,
+join your exports on several keys, run the readout and write a conclusion that survives the
+traps below. Install it once:
+
+```bash
+git clone https://github.com/Vadim2090/skip-the-call-test ~/.claude/skills/skip-the-call-test
+```
+
+Then ask in plain words: *"we get 150 leads a week and 4% of them reach the demo after an
+intro call; can we test dropping the call?"*, or hand it your CRM and form exports. It needs
+Node 18+ and Python 3; the scripts run locally and make no network calls.
+
 ![Checks tab of the example: one FAIL for the auto-reply that routes only into the skip arm](docs/img/checks.png)
 
 ```
@@ -88,7 +102,7 @@ Readout. Details and the fix for each: `docs/traps.md`.
 | 5 | Same word, different denominator | contract: offered = first arm-bearing touch; first stage entry, not current stage |
 | 6 | A test that never closes cannot be read | freeze date; offers-outside-window check |
 | 7 | A null result is not parity | interval of the difference; non-inferiority verdict; power at current n |
-| 8 | One join key undercounts, silently | contract asks for two keys and a match rate (the kit starts after the join) |
+| 8 | One join key undercounts, silently | `adapters/join_keys.py` matches on several keys, refuses collisions, reports the match rate |
 
 ## How to run it, in five steps
 
@@ -121,7 +135,7 @@ Readout. Details and the fix for each: `docs/traps.md`.
 - **Node, locally**: `node examples/plan.js --baseline 3% --mde 2% --per-week 200` for the
   Plan alone; `node examples/generate.js && node examples/demo.js` prints all four tabs for
   the synthetic data; `node examples/demo.js your-config.csv your-events.csv` runs on your own
-  export. `node --test tests/*.test.js` runs the 26 tests.
+  export. `node --test tests/*.test.js` runs the 30 tests.
 
 ## What is in the repo
 
@@ -132,9 +146,10 @@ Readout. Details and the fix for each: `docs/traps.md`.
 | `src/synthetic.js` | The example dataset with its planted facts |
 | `src/sheets.js` | The Apps Script menu, the Start here tab and the tab writers |
 | `docs/` | `traps.md`, `method.md`, `data-contract.md`, `setup.md`, `field-notes.md` |
-| `adapters/` | `map_csv.py`: any CSV export to the Events shape, standard library only |
-| `examples/` | `plan.js` (step 0), `config.csv`, `config-midtest.csv`, `generate.js`, `demo.js`, a sample CRM export and its mapping |
-| `tests/` | 26 tests: the statistics, the engine with its planted facts, the Sheets menu against a fake SpreadsheetApp, the adapter |
+| `SKILL.md` | The same kit as a Claude skill: plan, build the table, read, review a write-up |
+| `adapters/` | `map_csv.py`: any CSV export to the Events shape; `join_keys.py`: attach outcomes on several keys and report the match rate. Standard library only |
+| `examples/` | `plan.js` (step 0), `config.csv`, `config-midtest.csv`, `generate.js`, `demo.js` (`--md` for full tables), sample exports for both adapters |
+| `tests/` | 30 tests: the statistics, the engine with its planted facts, the Sheets menu against a fake SpreadsheetApp, both adapters, the skill file |
 
 ## Where this comes from
 

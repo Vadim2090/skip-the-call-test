@@ -1,0 +1,22 @@
+subject_id,arm,offered_at,email,linkedin,name
+P-1001,call,2026-03-02,ana.novak@company0.example,https://www.linkedin.com/in/ana-novak-100/,Ana Novak
+P-1002,skip,2026-03-03,ben.weber@company1.example,https://www.linkedin.com/in/ben-weber-101/,Ben Weber
+P-1003,call,2026-03-04,chen.li@company2.example,https://www.linkedin.com/in/chen-li-102/,Chen Li
+P-1004,skip,2026-03-05,dara.silva@company3.example,https://www.linkedin.com/in/dara-silva-103/,Dara Silva
+P-1005,call,2026-03-06,eli.kovac@company4.example,https://www.linkedin.com/in/eli-kovac-104/,Eli Kovac
+P-1006,skip,2026-03-07,fatima.haddad@company0.example,https://www.linkedin.com/in/fatima-haddad-105/,Fatima Haddad
+P-1007,call,2026-03-08,goran.ilic@company1.example,https://www.linkedin.com/in/goran-ilic-106/,Goran Ilic
+P-1008,skip,2026-03-09,hana.sato@company2.example,https://www.linkedin.com/in/hana-sato-107/,Hana Sato
+P-1009,call,2026-03-10,ivan.petrov@company3.example,https://www.linkedin.com/in/ivan-petrov-108/,Ivan Petrov
+P-1010,skip,2026-03-11,jo.brown@company4.example,https://www.linkedin.com/in/jo-brown-109/,Jo Brown
+P-1011,call,2026-03-12,kai.moreno@company0.example,https://www.linkedin.com/in/kai-moreno-110/,Kai Moreno
+P-1012,skip,2026-03-13,lena.fischer@company1.example,https://www.linkedin.com/in/lena-fischer-111/,Lena Fischer
+P-1013,call,2026-03-14,milan.jovic@company2.example,https://www.linkedin.com/in/milan-jovic-112/,Milan Jovic
+P-1014,skip,2026-03-15,nora.berg@company3.example,https://www.linkedin.com/in/nora-berg-113/,Nora Berg
+P-1015,call,2026-03-16,omar.khan@company4.example,https://www.linkedin.com/in/omar-khan-114/,Omar Khan
+P-1016,skip,2026-03-17,petra.horvat@company0.example,https://www.linkedin.com/in/petra-horvat-115/,Petra Horvat
+P-1017,call,2026-03-18,quinn.reid@company1.example,https://www.linkedin.com/in/quinn-reid-116/,Quinn Reid
+P-1018,skip,2026-03-19,rosa.diaz@company2.example,https://www.linkedin.com/in/rosa-diaz-117/,Rosa Diaz
+P-1019,call,2026-03-20,sam.cole@company3.example,https://www.linkedin.com/in/sam-cole-118/,Sam Cole
+P-1020,skip,2026-03-21,tara.ross@company4.example,https://www.linkedin.com/in/tara-ross-119/,Tara Ross
+P-1021,call,2026-03-25,info@shared.example,,Ana Novak
